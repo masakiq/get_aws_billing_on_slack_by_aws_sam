@@ -1,0 +1,19 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Simple CRUD webservice.
+Resources:
+  AwsBilling:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: aws_billing
+      Runtime: go1.x
+      Policies: [CloudWatchFullAccess,AmazonSSMFullAccess]
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /aws_billing
+            Method: GET
+      Environment:
+        Variables:
+          TOKEN: token
