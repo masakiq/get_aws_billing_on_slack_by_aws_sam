@@ -31,16 +31,25 @@ Then fill in value Token by getting slash command.
 $ docker-compose build
 ```
 
-* development on golang-vim-dev
+* dep ensure
 
 ```
-$ docker run --rm -tiv `pwd`:/go/src/get_aws_billing_on_slack_by_aws_sam get_aws_billing_on_slack_by_aws_sam_lambda
-
-# fish shell
-$ docker run --rm -tiv (pwd):/go/src/get_aws_billing_on_slack_by_aws_sam get_aws_billing_on_slack_by_aws_sam_lambda
+$ docker-compose run --rm lambda dep ensure
 ```
 
-* build binary(in container)
+* development with vim-go
+
+```
+$ docker-compose run --rm lambda
+```
+
+* build binary
+
+```
+$ docker-compose run --rm -e GOOS=linux -e GOARCH=amd64 lambda go build -o aws_billing .
+```
+
+or in container
 
 ```
 $ GOOS=linux GOARCH=amd64 go build -o aws_billing .
@@ -53,13 +62,12 @@ $ sam validate
 ```
 
 * start api
+  * Need setup `SLACK_TOKEN_FOR_AWS_BILLING` on `AWS Systems Manager Parameter store`.
+  * Need environment variables of AWS_ACCESS_KEY_ID & AWS_SECRET_ACCESS_KEY (or AWS_PROFILE) which has [CloudWatchFullAccess, AmazonSSMFullAccess] policies.
 
 ```
 $ sam local start-api
 ```
-
-  * Need setup `SLACK_TOKEN_FOR_AWS_BILLING` on `AWS Systems Manager Parameter store`.
-  * Need environment variables of AWS_ACCESS_KEY_ID & AWS_SECRET_ACCESS_KEY (or AWS_PROFILE) which has [CloudWatchFullAccess, AmazonSSMFullAccess] policies.
 
 * post localhost
 

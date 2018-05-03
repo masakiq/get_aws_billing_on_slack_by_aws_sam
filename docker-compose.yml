@@ -4,8 +4,3 @@ services:
     build: .
     volumes:
       - .:/go/src/get_aws_billing_on_slack_by_aws_sam/
-      - share:/go/bin
-      - share:/go/src/github.com
-
-volumes:
-  share:

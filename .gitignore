@@ -2,3 +2,4 @@
 /bin/*
 package.yaml
 aws_billing
+/vendor/*
