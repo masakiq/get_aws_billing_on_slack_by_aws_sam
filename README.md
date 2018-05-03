@@ -15,10 +15,10 @@ $ docker-compose build
 * development on golang-vim-dev
 
 ```
-$ docker run --rm -tiv `pwd`:/go/src/get_aws_billing_on_slack_by_aws_sam get_aws_billing_on_slack_by_aws_sam_lambdaapi
+$ docker run --rm -tiv `pwd`:/go/src/get_aws_billing_on_slack_by_aws_sam get_aws_billing_on_slack_by_aws_sam_lambda
 
 # fish shell
-$ docker run --rm -tiv (pwd):/go/src/get_aws_billing_on_slack_by_aws_sam get_aws_billing_on_slack_by_aws_sam_lambdaapi
+$ docker run --rm -tiv (pwd):/go/src/get_aws_billing_on_slack_by_aws_sam get_aws_billing_on_slack_by_aws_sam_lambda
 ```
 
 * build binary(in container)
