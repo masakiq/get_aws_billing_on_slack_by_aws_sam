@@ -55,7 +55,7 @@ func GetBilling() (float64, error) {
 
 	log.Println(*resp)
 	if len(resp.Datapoints) < 1 {
-		return 0, fmt.Errorf("Datapoint is 0. Sould extends get Datapoint start time.")
+		return 0, fmt.Errorf("Datapoint is empty. Sould extends get Datapoint range.")
 	}
 
 	bills := []float64{}
