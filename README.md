@@ -72,6 +72,7 @@ $ sam local start-api
 ## Deployment
 
 * make s3 bucket
+  * NOTE: The S3 bucket should unique in whole world. So this is example.
 
 ```
 $ aws s3 mb s3://sum-aws-billing
@@ -80,7 +81,7 @@ $ aws s3 mb s3://sum-aws-billing
 * upload s3 bucket & create package.yml
 
 ```
-$ sam package --template-file template.yaml --s3-bucket sum-aws-billing --output-template-file package.yaml
+$ sam package --template-file template.yaml --s3-bucket {{s3-bucket-name}} --output-template-file package.yaml
 ```
 
 * deploy cloudformation & lambda
