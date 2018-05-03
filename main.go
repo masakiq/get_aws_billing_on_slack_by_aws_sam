@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"strconv"
 	"time"
@@ -18,10 +19,11 @@ import (
 var ginLambda *ginadapter.GinLambda
 
 func Handler(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	gin.SetMode(gin.ReleaseMode)
 	if ginLambda == nil {
 		log.Printf("Gin cold start")
 		r := gin.Default()
-		r.GET("/aws_costs", getAwsCosts)
+		r.GET("/aws_billing", getAwsCosts)
 
 		ginLambda = ginadapter.New(r)
 	}
@@ -57,6 +59,8 @@ const (
 	metricName     = "EstimatedCharges"
 	dimensionName  = "Currency"
 	dimensionValue = "USD"
+	period6hours   = 21600
+	periodDay      = 86400
 )
 
 func GetBilling() (float64, error) {
@@ -71,8 +75,8 @@ func GetBilling() (float64, error) {
 	params := &cloudwatch.GetMetricStatisticsInput{
 		Namespace:  aws.String(namespace),
 		MetricName: aws.String(metricName),
-		Period:     aws.Int64(21600),
-		StartTime:  aws.Time(time.Now().Add(time.Duration(21600) * time.Second * -1)),
+		Period:     aws.Int64(period6hours),
+		StartTime:  aws.Time(time.Now().Add(time.Duration(periodDay) * time.Second * -1)),
 		EndTime:    aws.Time(time.Now()),
 		Statistics: []*string{
 			aws.String(cloudwatch.StatisticMaximum),
@@ -92,7 +96,17 @@ func GetBilling() (float64, error) {
 		return 0, err
 	}
 
-	return float64(*resp.Datapoints[0].Maximum), nil
+	log.Println(*resp)
+	if len(resp.Datapoints) < 1 {
+		return 0, fmt.Errorf("Datapoint is 0. Sould extends get Datapoint start time.")
+	}
+
+	bills := []float64{}
+	for _, bill := range resp.Datapoints {
+		bills = append(bills, float64(*bill.Maximum))
+	}
+
+	return max(bills), nil
 }
 
 func SsmGet(name string, region string) (string, error) {
@@ -112,4 +126,14 @@ func SsmGet(name string, region string) (string, error) {
 		return "", err
 	}
 	return *param.Parameter.Value, nil
+}
+
+func max(a []float64) float64 {
+	max := a[0]
+	for _, i := range a {
+		if i > max {
+			max = i
+		}
+	}
+	return max
 }
