@@ -21,6 +21,10 @@
 Set parameter name, `SLACK_TOKEN_FOR_AWS_BILLING`.
 Then fill in value Token by getting slash command.
 
+```
+$ aws ssm put-parameter --overwrite --name SLACK_TOKEN_FOR_AWS_BILLING --type String --value xxxxxxx
+```
+
 ![](https://github.com/maeda1150/get_aws_billing_on_slack_by_aws_sam/blob/master/images/ssm.png)
 
 ## Development
