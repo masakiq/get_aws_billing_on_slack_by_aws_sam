@@ -106,6 +106,25 @@ $ sam package --template-file template.yaml --s3-bucket {{s3-bucket-name}} --out
 $ aws cloudformation deploy --template-file package.yaml --stack-name aws-billing --capabilities CAPABILITY_IAM
 ```
 
+### If encountered `Unable to upload artifact None referenced by CodeUri parameter of AwsBilling resource.`
+
+If you encountered this error, here is workaround.
+
+```
+Unable to upload artifact None referenced by CodeUri parameter of AwsBilling resource.
+[Errno 2] No such file or directory: '/example/get_aws_billing_on_slack_by_aws_sam/vendor/github.com/json-iterator/go/skip_tests/array/skip_test.go'
+```
+
+```
+$ rm /example/get_aws_billing_on_slack_by_aws_sam/vendor/github.com/json-iterator/go/skip_tests/array/skip_test.go'
+$ vim /example/get_aws_billing_on_slack_by_aws_sam/vendor/github.com/json-iterator/go/skip_tests/array/skip_test.go'
+```
+
+Then paste this.
+https://github.com/json-iterator/go/blob/master/skip_tests/array_test.go
+
+**This error may occur 3 times. Just do same workaround.**
+
 * Set url on Slack Slash command.
 
 ![](https://github.com/maeda1150/get_aws_billing_on_slack_by_aws_sam/blob/master/images/url.png)
