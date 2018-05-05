@@ -5,7 +5,7 @@
 ## Require
 
 * Docker & docker-compose
-* [AWS SAM](https://github.com/awslabs/serverless-application-model)
+* [aws-sam-local](https://github.com/awslabs/aws-sam-local)
 * awscli
 
 ## Create Slack Slash command & Setup AWS Systems Manager Parameter store
