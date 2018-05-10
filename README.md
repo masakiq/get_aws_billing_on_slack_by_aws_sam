@@ -91,7 +91,7 @@ $ sam local start-api
   * NOTE: The S3 bucket should unique in whole world. So this is example.
 
 ```
-$ aws s3 mb s3://sum-aws-billing
+$ aws s3 mb s3://sam-aws-billing
 ```
 
 * upload s3 bucket & create package.yml
@@ -100,13 +100,7 @@ $ aws s3 mb s3://sum-aws-billing
 $ sam package --template-file template.yaml --s3-bucket {{s3-bucket-name}} --output-template-file package.yaml
 ```
 
-* deploy cloudformation & lambda
-
-```
-$ aws cloudformation deploy --template-file package.yaml --stack-name aws-billing --capabilities CAPABILITY_IAM
-```
-
-### If encountered `Unable to upload artifact None referenced by CodeUri parameter of AwsBilling resource.`
+#### If encountered `Unable to upload artifact None referenced by CodeUri parameter of AwsBilling resource.`
 
 If you encountered this error, here is workaround.
 
@@ -119,6 +113,13 @@ Unable to upload artifact None referenced by CodeUri parameter of AwsBilling res
 $ rm /example/get_aws_billing_on_slack_by_aws_sam/vendor/github.com/json-iterator/go/skip_tests/array/skip_test.go'
 $ vim /example/get_aws_billing_on_slack_by_aws_sam/vendor/github.com/json-iterator/go/skip_tests/array/skip_test.go'
 ```
+
+* deploy cloudformation & lambda
+
+```
+$ aws cloudformation deploy --template-file package.yaml --stack-name aws-billing --capabilities CAPABILITY_IAM
+```
+
 
 Then paste this.
 https://github.com/json-iterator/go/blob/master/skip_tests/array_test.go
